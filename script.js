@@ -306,17 +306,21 @@ document.addEventListener('DOMContentLoaded', () => {
     qrContainer.addEventListener('click', async () => {
         const t = translations[currentLang];
         try {
-            const blob = await qrCode.getRawData("png");
-            if (!blob) throw new Error("Failed to generate image data");
-            
+            // Some browsers (like Safari) lose the user gesture context if we await before writing to clipboard.
+            // Passing the promise directly into ClipboardItem solves this issue.
+            const blobPromise = qrCode.getRawData("png").then(blob => {
+                if (!blob) throw new Error("Failed to generate image data");
+                return blob;
+            });
+
             await navigator.clipboard.write([
                 new ClipboardItem({
-                    'image/png': blob
+                    'image/png': blobPromise
                 })
             ]);
             showToast(t.toastSuccess);
         } catch (err) {
-            console.error('Failed to copy text: ', err);
+            console.error('Failed to copy image: ', err);
             showToast(t.toastFail);
         }
     });
