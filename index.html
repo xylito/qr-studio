@@ -1,0 +1,129 @@
+<!--
+  ============================================================================================================
+  [ Credits & License ]
+  
+  - Project:    QR Studio (QR Code Generator)
+  - Creator:    XYLO
+  - Version:    1.0.0
+  - License:    CC BY-SA 4.0 (상업적 이용 가능 / 동일 조건 변경 허락 / 저작자 표시)
+  ============================================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Studio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="style.css">
+    <!-- QR Code Styling Library -->
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-top">
+                <h1>QR Studio</h1>
+                <button id="lang-toggle" class="btn icon-btn theme-btn" aria-label="Toggle language">
+                    <span id="lang-text" style="font-size: 0.8rem; font-weight: 700;">KO</span>
+                </button>
+                <button id="theme-toggle" class="btn icon-btn theme-btn" aria-label="Toggle theme">
+                    <svg id="theme-icon-moon" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg id="theme-icon-sun" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
+            </div>
+            <p data-i18n="subtitle">Generate beautiful, customized QR codes instantly.</p>
+        </header>
+
+        <main class="main-content">
+            <section class="controls-panel">
+                <div class="control-group">
+                    <label for="qr-data" data-i18n="dataLabel">Data (URL or Text)</label>
+                    <input type="text" id="qr-data" placeholder="https://github.com" value="https://github.com">
+                </div>
+
+                <div class="settings-grid">
+                    <div class="control-group">
+                        <label for="dots-style" data-i18n="patternLabel">Dot Pattern</label>
+                        <select id="dots-style">
+                            <option value="rounded" data-i18n="optRounded">Rounded</option>
+                            <option value="dots" data-i18n="optDots">Dots</option>
+                            <option value="classy" data-i18n="optClassy">Classy</option>
+                            <option value="classy-rounded" data-i18n="optClassyRounded">Classy Rounded</option>
+                            <option value="square" data-i18n="optSquare">Square</option>
+                            <option value="extra-rounded" data-i18n="optExtraRounded">Extra Rounded</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="corners-square-style" data-i18n="cornerSqLabel">Corner Square</label>
+                        <select id="corners-square-style">
+                            <option value="extra-rounded" data-i18n="optCornerSqExtraRounded">Extra Rounded</option>
+                            <option value="dot" data-i18n="optCornerSqDot">Dot</option>
+                            <option value="square" data-i18n="optCornerSqSquare">Square</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="corners-dot-style" data-i18n="cornerDotLabel">Corner Dot</label>
+                        <select id="corners-dot-style">
+                            <option value="dot" data-i18n="optCornerDotDot">Dot</option>
+                            <option value="square" data-i18n="optCornerDotSquare">Square</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="qr-color" data-i18n="fgColorLabel">Foreground Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="qr-color" value="#ffffff">
+                            <span id="qr-color-hex">#ffffff</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="qr-bg-color" data-i18n="bgColorLabel">Background Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="qr-bg-color" value="#121212">
+                            <span id="qr-bg-color-hex">#121212</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group logo-upload-group">
+                    <label for="qr-logo" data-i18n="addLogoLabel">Add Logo</label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="qr-logo" accept="image/*">
+                        <button class="btn secondary-btn" id="upload-btn" data-i18n="chooseImage">Choose Image</button>
+                        <span id="file-name" data-i18n="noFile">No file chosen</span>
+                        <button class="btn icon-btn" id="clear-logo" title="Clear Logo" style="display: none;">×</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="preview-panel">
+                <div class="qr-container">
+                    <div id="qr-code"></div>
+                </div>
+                <div class="download-actions">
+                    <button id="download-png" class="btn primary-btn" data-i18n="downloadPng">Download PNG</button>
+                    <button id="download-svg" class="btn secondary-btn" data-i18n="downloadSvg">Download SVG</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer class="ui-footer">
+        &copy; 2026 XYLO | QR Studio 1.0.0 | License: CC BY-SA 4.0 | 
+        <a href="https://github.com/xylito" target="_blank" rel="noopener noreferrer">github.com/xylito</a>
+    </footer>
+    
+    <div id="toast" class="toast">QR Code Copied to Clipboard!</div>
+
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>
